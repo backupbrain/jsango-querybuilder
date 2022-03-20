@@ -190,7 +190,7 @@ You can create advanced conditions using the `Q()` function.
 
 It uses [Django Query](https://docs.djangoproject.com/en/4.0/topics/db/queries/)-style syntax, where it relies on the `__` string segment to join a column name and the equivalence function.
 
-For exaample, take these:
+For example, take these:
 
 Example 1: Exact matches
 ```javascript
