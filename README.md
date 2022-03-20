@@ -20,6 +20,15 @@ Of course it goes without saying that you must include the library from somewher
 const { QueryBuilder } = require('./queryBuilder/QueryBuilder')
 ```
 
+Let's say you are working with a `user` table, that looks something like this:
+
+| id | email              | name | age | height |
+|----|--------------------|------|-----|--------|
+| 1  | user1@example.com  | Jon  | 33  | 5.6    |
+| 2  | email1@example.com | Ada  | 45  | 5.2    |
+| 3  | email2@example.com | Beck | 56  | 5.8    |
+
+You don't need a database to use the query builder, but it may be useful to be able to visualize what type of data these examples are assuming to work with.
 
 ### Select queries
 
