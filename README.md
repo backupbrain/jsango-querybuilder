@@ -12,9 +12,6 @@ Of course it goes without saying that you must include the library from somewher
 const { QueryBuilder } = require('./queryBuilder/QueryBuilder')
 ```
 
-Let's presume you have a `User` table like this:
-
-
 
 ### Select queries
 
@@ -46,15 +43,16 @@ console.log(String(query))
 SELECT * FROM `user` WHERE ( `email` IS "user1@example.com" ) LIMIT 1;
 ```
 
-Example 4: Filter Users by email and name
+Example 4: Filter Users by email and name, and only select the name and age columns.
 ```javascript
 const query = new QueryBuilder('user')
     .filter({ email: 'user1@example.com', name: 'John' })
+    .columns(['name', 'age'])
 console.log(String(query))
 ```
 
 ```sql
-SELECT * FROM `user` WHERE ( `email` IS "user1@example.com" AND `name` IS "John" );
+SELECT `name`, `age` FROM `user` WHERE ( `email` IS "user1@example.com" AND `name` IS "John" );
 ```
 
 
@@ -81,7 +79,7 @@ console.log(String(query))
 SELECT * FROM `user` ORDER BY ( `age` ASC, `height` DESC );
 ```
 
-Example 6: Joining matching tables
+Example 6: Find all users and any posts that match that user
 ```javascript
 const query = new QueryBuilder('user')
     .all()
@@ -93,7 +91,7 @@ console.log(String(query))
 SELECT * FROM `user` LEFT JOIN ( `post` );
 ```
 
-Example 6: Fetching a single user's name and a post where the email is known, ordering by descending height.
+Example 6: Fetching a single user's name a post where the email is known, ordering by descending height.
 ```javascript
 const query = new QueryBuilder('user')
     .get({ email__endswith: '@example.com', age__gt: 21 })
@@ -171,3 +169,9 @@ const query = new QueryBuilder('user')
 ```sql
 DELETE FROM `user`;
 ```
+
+
+## Known issues:
+
+* Due to a limitation in Javascript, we can't assign the `.values()` method, so we are using `.columns()` instead.
+* This dosen't yet support querying other table's columns with the `__` divider
