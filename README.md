@@ -186,7 +186,7 @@ DELETE FROM `user`;
 
 You can create advanced conditions using the `Q()` function.
 
-`Q()` takes an object and attempts to convert it into an SQL condition which could go inside a `WHERE () ` clause.
+`Q()` takes an object and attempts to convert it into an SQL condition which could go inside a `WHERE ()` SQL clause.
 
 It uses [Django Query](https://docs.djangoproject.com/en/4.0/topics/db/queries/)-style syntax, where it relies on the `__` string segment to join a column name and the equivalence function.
 
