@@ -230,10 +230,10 @@ Q({name__in: ["john", "tony"]})
 
 Example 4: Other types of matches
 ```javascript
-console.log(Q({name: {id: 1, name: "tony"}}))
-console.log(Q({age__gte: 18}))
-console.log(Q({age__lt: 21, age__gte: 18}))
-console.log(Q({age__ne: 21}))
+Q({name: {id: 1, name: "tony"}})
+Q({age__gte: 18})
+Q({age__lt: 21, age__gte: 18})
+Q({age__ne: 21})
 ```
 
 ```sql
