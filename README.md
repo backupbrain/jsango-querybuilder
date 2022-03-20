@@ -32,6 +32,10 @@ const query = new QueryBuilder('user')
 console.log(String(query))
 ```
 
+```sql
+SELECT * FROM `user` WHERE ( `email` IS `user1@example.com` );
+```
+
 Example 3: Get a single Users by email
 ```javascript
 const query = new QueryBuilder('user')
