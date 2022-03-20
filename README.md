@@ -267,3 +267,4 @@ Q({email__startswith: "john"}) + OR + Q({email__startswith: "john"}) + AND + NOT
 
 * Due to a limitation in Javascript, we can't assign the `.values()` method, so we are using `.columns()` instead.
 * This dosen't yet support querying other table's columns with the `__` divider
+* We can't yet pass `Q()` statements directly into the Query Builder's `.filter()` method
