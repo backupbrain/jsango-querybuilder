@@ -4,6 +4,14 @@ This is a query builder, built in JavaScript.
 
 It is inspired by [Django](https://www.djangoproject.com/)'s amazing query builder, which allows developers to quickly chain commands together to create powerful queries, including multi-table joins.
 
+## Why does this exist
+
+You may find that working with SQL databases challenging, especially when converting between functional or object-oriented programming to SQL statements. Writing SQL statements by hand is slow, messy, and error-prone. Many Database relational Management Systems (DBRMS) have not-so-great query builders.
+
+Since many good DBRMS have the ability to input raw queries, it seems useful to be able to use an external query builder library.
+
+My goal here is to create one that is intuitive yet powerful, especially allowing features such as joins.
+
 ## Examples
 
 Of course it goes without saying that you must include the library from somewhere.
@@ -174,6 +182,77 @@ const query = new QueryBuilder('user')
 DELETE FROM `user`;
 ```
 
+## Advanced Conditions
+
+You can create advanced conditions using the `Q()` function.
+
+`Q()` takes an object and attempts to convert it into an SQL condition which could go inside a `WHERE () ` clause.
+
+It uses [Django Query](https://docs.djangoproject.com/en/4.0/topics/db/queries/)-style syntax, where it relies on the `__` string segment to join a column name and the equivalence function.
+
+For exaample, take these:
+
+Example 1: Exact matches
+```javascript
+const { Q } = require('./queryBuilder/Q')
+
+Q({name: "john"})
+Q({age: 21})
+Q({validated: false})
+Q({name__isnull: true})
+Q({name__isnull: false})
+```
+```sql
+( `name` = "john" )
+( `age` = 21 )
+( `validated` IS FALSE )
+( `name` IS NULL )
+( `name` IS NOT NULL )
+```
+
+Example 2: Text matching
+```javascript
+Q({email__startswith: "john"})
+Q({name__contains: "john"})
+```
+```sql
+( `email` LIKE "john%" )
+( `name` LIKE "%john%" )
+```
+
+Example 3: Matching arrays
+```javascript
+Q({name__in: ["john", "tony"]})
+```
+```sql
+( 'name` IN ["john", "tony"] )
+```
+
+Example 4: Other types of matches
+```javascript
+console.log(Q({name: {id: 1, name: "tony"}}))
+console.log(Q({age__gte: 18}))
+console.log(Q({age__lt: 21, age__gte: 18}))
+console.log(Q({age__ne: 21}))
+```
+
+```sql
+( `name_id` = 1 )
+( `age` >= 18 )
+( `age` < 21 AND `age` >= 18 )
+( `age` = 21 )
+```
+
+### Joining Conditions
+
+```javascript
+const { Q, AND, OR, NOT } = require('./queryBuilder/Q')
+
+Q({email__startswith: "john"}) + OR + Q({email__startswith: "john"}) + AND + NOT + Q({email__startswith: "john"})
+```
+```sql
+( `email` LIKE "john%" ) OR ( `email` LIKE "john%" ) AND  NOT ( `email` LIKE "john%" )
+```
 
 ## Known issues:
 
